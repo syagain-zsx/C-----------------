@@ -1,0 +1,19 @@
+syntax = "proto3";
+package demo;
+option cc_generic_services = true;
+
+// 请求：只带一句话
+message EchoReq {
+    string msg = 1;
+};
+
+// 响应：回显原话 + 真正处理该请求的实例地址（用来观察请求打到了哪个节点）
+message EchoRsp {
+    string msg = 1;
+    string server = 2;
+};
+
+// 最小化的下游服务（等价于项目里的 user/file/video 服务）
+service DemoService {
+    rpc echo(EchoReq) returns (EchoRsp);
+};
