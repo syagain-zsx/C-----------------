@@ -186,6 +186,7 @@ mpv 运行库（约 108 MB）不入库，下载后放到 `client/JianLiuPlayer/m
 | ------------------------------------------------------------------------ | ------------------------------------------------- |
 | [docs/08-project-summary.md](docs/08-project-summary.md)                 | **项目一页纸总览（简历/面试用）**                 |
 | [docs/learning/ai-study-plan.md](docs/learning/ai-study-plan.md)         | **6 周学习手册（环境/链路/难点/计划/面试/速查）** |
+| [docs/09-runbook.md](docs/09-runbook.md)                                 | **本地运行手册（Linux VM 命令 + Windows Qt 操作）** |
 | [docs/diagrams/jianliu-vod-e2e.html](docs/diagrams/jianliu-vod-e2e.html) | 端到端业务流程交互图（Archify）                   |
 | [docs/ROADMAP.md](docs/ROADMAP.md)                                       | 长远目标、里程碑、学习路线、简历模板              |
 | [docs/02-api.md](docs/02-api.md)                                         | 接口清单、错误码、curl 联调示例                   |
