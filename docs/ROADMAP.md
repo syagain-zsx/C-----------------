@@ -138,7 +138,6 @@ vod-system/
 │   ├── conf/global.conf
 │   └── sql/                    # 建表 SQL
 ├── docs/                       # 架构 / 接口 / 部署 / 学习笔记 / 面试
-├── examples/                   # 脚手架 16 个模块的示例（学习用，可选构建）
 ├── scripts/                    # 构建、启动、初始化脚本
 └── tools/                      # file_client 等联调工具
 ```
@@ -209,7 +208,7 @@ vod-system/
 
 1. **原理**：这个中间件解决什么问题？核心机制是什么？
 2. **本项目**：`scaffold/JianLiuScaffold/xxx.h` 封装了哪些能力？服务端怎么用？
-3. **动手**：改一个 demo（`examples/` 里有 16 个），或者加一个功能验证理解；
+3. **动手**：改一处 `scaffold/JianLiuScaffold/xxx.cc` 的实现，或者加一个功能验证理解；
 4. **输出**：写一页笔记 + 3 个面试问答，放进 `docs/notes/`。
 
 ### 6.2 模块学习顺序（由浅入深）

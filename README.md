@@ -13,12 +13,14 @@
 
 ## 界面预览
 
-| 首页（服务端真实数据） | 播放页（HLS + 弹幕） |
-| --- | --- |
+
+| 首页（服务端真实数据）        | 播放页（HLS + 弹幕）              |
+| ----------------------------- | --------------------------------- |
 | ![首页](docs/images/home.png) | ![播放页](docs/images/player.png) |
 
-| 我的（登录后） | 系统（管理员审核） |
-| --- | --- |
+
+| 我的（登录后）                   | 系统（管理员审核）             |
+| -------------------------------- | ------------------------------ |
 | ![我的](docs/images/profile.png) | ![审核](docs/images/admin.png) |
 
 > 截图来自 Linux + Xvfb 下的实际运行：客户端拉取视频列表与封面，支持密码登录，
@@ -59,19 +61,20 @@
 
 ## 技术栈
 
-| 层次 | 技术 | 用途 |
-| --- | --- | --- |
-| 语言/构建 | C++17、CMake 3.16+ | 服务端 |
-| RPC | brpc + protobuf | 服务间通信、HTTP 网关 |
-| 注册中心 | etcd（租约 + watch） | 服务注册与发现 |
-| 消息队列 | RabbitMQ（DLX 延迟队列） | 转码任务、缓存同步、文件删除 |
-| 缓存 | Redis（redis++） | 会话、视频信息、计数 |
-| 数据库 | MySQL 8 + ODB 2.5 | 持久化、ORM |
-| 搜索 | Elasticsearch（elasticlient） | 视频标题/简介检索 |
-| 文件存储 | FastDFS | 视频、封面、切片存储 |
-| 转码 | FFmpeg（libavformat） | MP4 → HLS（m3u8 + ts） |
-| 日志 | spdlog | 同步/异步、轮转 |
-| 客户端 | Qt 6.7 + libmpv | 桌面播放器（Windows 构建） |
+
+| 层次      | 技术                          | 用途                         |
+| --------- | ----------------------------- | ---------------------------- |
+| 语言/构建 | C++17、CMake 3.16+            | 服务端                       |
+| RPC       | brpc + protobuf               | 服务间通信、HTTP 网关        |
+| 注册中心  | etcd（租约 + watch）          | 服务注册与发现               |
+| 消息队列  | RabbitMQ（DLX 延迟队列）      | 转码任务、缓存同步、文件删除 |
+| 缓存      | Redis（redis++）              | 会话、视频信息、计数         |
+| 数据库    | MySQL 8 + ODB 2.5             | 持久化、ORM                  |
+| 搜索      | Elasticsearch（elasticlient） | 视频标题/简介检索            |
+| 文件存储  | FastDFS                       | 视频、封面、切片存储         |
+| 转码      | FFmpeg（libavformat）         | MP4 → HLS（m3u8 + ts）      |
+| 日志      | spdlog                        | 同步/异步、轮转              |
+| 客户端    | Qt 6.7 + libmpv               | 桌面播放器（Windows 构建）   |
 
 ---
 
@@ -96,7 +99,6 @@
 │   └── JianLiuMockServer/# 客户端联调用的 Mock 服务
 ├── deploy/                 # docker-compose / Dockerfile / 配置 / SQL
 ├── docs/                   # 架构、接口、部署、学习笔记、面试题
-├── examples/               # 脚手架各模块示例（学习用，不参与主构建）
 ├── scripts/                # build.sh / fetch-ffmpeg.sh / 运行脚本
 └── tools/                  # file_client 等联调工具
 ```
@@ -107,11 +109,7 @@
 
 ### 1. 依赖
 
-Ubuntu 22.04 下需要：`g++ cmake make protobuf-compiler odb libodb-*-dev
-libbrpc-dev brpc libetcd-cpp-api-dev libamqpcpp-dev libev-dev libredis++-dev
-libhiredis-dev libspdlog-dev libfmt-dev libjsoncpp-dev libcurl4-openssl-dev
-libssl-dev libgflags-dev libleveldb-dev libmysqlclient-dev
-libelasticlient-dev libcpr-dev libwebsocketpp-dev libfastcommon-dev`
+Ubuntu 22.04 下需要：`g++ cmake make protobuf-compiler odb libodb-*-dev libbrpc-dev brpc libetcd-cpp-api-dev libamqpcpp-dev libev-dev libredis++-dev libhiredis-dev libspdlog-dev libfmt-dev libjsoncpp-dev libcurl4-openssl-dev libssl-dev libgflags-dev libleveldb-dev libmysqlclient-dev libelasticlient-dev libcpr-dev libwebsocketpp-dev libfastcommon-dev`
 
 > 没有 root 权限时，FFmpeg 用 `scripts/fetch-ffmpeg.sh` 解到 `~/local/ffmpeg`，见脚本注释。
 
@@ -183,20 +181,21 @@ mpv 运行库（约 108 MB）不入库，下载后放到 `client/JianLiuPlayer/m
 
 ## 文档
 
-| 文档 | 内容 |
-| --- | --- |
-| [docs/08-project-summary.md](docs/08-project-summary.md) | **项目一页纸总览（简历/面试用）** |
-| [docs/learning/ai-study-plan.md](docs/learning/ai-study-plan.md) | **6 周学习手册（环境/链路/难点/计划/面试/速查）** |
-| [docs/diagrams/jianliu-vod-e2e.html](docs/diagrams/jianliu-vod-e2e.html) | 端到端业务流程交互图（Archify） |
-| [docs/ROADMAP.md](docs/ROADMAP.md) | 长远目标、里程碑、学习路线、简历模板 |
-| [docs/02-api.md](docs/02-api.md) | 接口清单、错误码、curl 联调示例 |
-| [docs/01-architecture.md](docs/01-architecture.md) | 服务划分、代码分层、数据模型、关键流程 |
-| [docs/03-deploy.md](docs/03-deploy.md) | 部署手册（本地实测 + Docker）、常见问题 |
-| [docs/04-interview.md](docs/04-interview.md) | 面试讲述稿、高频问答、简历模板 |
-| [docs/05-performance.md](docs/05-performance.md) | 压测方法、基线数据、优化清单 |
-| [docs/06-code-walkthrough.md](docs/06-code-walkthrough.md) | 代码导读：阅读顺序、改动场景、调试技巧 |
-| [docs/07-client-integration.md](docs/07-client-integration.md) | 客户端联调：接口映射、构建、联调顺序 |
-| [docs/notes/](docs/notes/README.md) | 中间件学习笔记（Redis/MQ/RPC/ODB/HLS） |
+
+| 文档                                                                     | 内容                                              |
+| ------------------------------------------------------------------------ | ------------------------------------------------- |
+| [docs/08-project-summary.md](docs/08-project-summary.md)                 | **项目一页纸总览（简历/面试用）**                 |
+| [docs/learning/ai-study-plan.md](docs/learning/ai-study-plan.md)         | **6 周学习手册（环境/链路/难点/计划/面试/速查）** |
+| [docs/diagrams/jianliu-vod-e2e.html](docs/diagrams/jianliu-vod-e2e.html) | 端到端业务流程交互图（Archify）                   |
+| [docs/ROADMAP.md](docs/ROADMAP.md)                                       | 长远目标、里程碑、学习路线、简历模板              |
+| [docs/02-api.md](docs/02-api.md)                                         | 接口清单、错误码、curl 联调示例                   |
+| [docs/01-architecture.md](docs/01-architecture.md)                       | 服务划分、代码分层、数据模型、关键流程            |
+| [docs/03-deploy.md](docs/03-deploy.md)                                   | 部署手册（本地实测 + Docker）、常见问题           |
+| [docs/04-interview.md](docs/04-interview.md)                             | 面试讲述稿、高频问答、简历模板                    |
+| [docs/05-performance.md](docs/05-performance.md)                         | 压测方法、基线数据、优化清单                      |
+| [docs/06-code-walkthrough.md](docs/06-code-walkthrough.md)               | 代码导读：阅读顺序、改动场景、调试技巧            |
+| [docs/07-client-integration.md](docs/07-client-integration.md)           | 客户端联调：接口映射、构建、联调顺序              |
+| [docs/notes/](docs/notes/README.md)                                      | 中间件学习笔记（Redis/MQ/RPC/ODB/HLS）            |
 
 ---
 
@@ -212,16 +211,17 @@ mpv 运行库（约 108 MB）不入库，下载后放到 `client/JianLiuPlayer/m
 
 ## 项目状态
 
-| 阶段 | 状态 |
-| --- | --- |
-| M0 源码盘点、目录重构 | ✅ |
-| M1 统一构建系统（scaffold + 5 服务） | ✅ |
-| M2 服务可运行（etcd 注册 + 网关响应） | ✅ |
-| M3 接口联调（登录/上传/转码/HLS/互动） | ✅ |
-| M4 客户端联调 | ✅ Linux 下完整验证（登录/列表/封面/播放/弹幕）；Windows 实机待验证 |
-| M5 业务闭环（服务端） | ✅（转码/HLS/点赞/弹幕/关注/审核） |
-| M6 测试与部署（gtest 8 项 + Docker 编排） | 🔄 测试完成，Docker 编排待实机验证 |
-| M7 文档、学习笔记、面试材料 | ✅ |
-| M8 性能优化与压测 | ✅（列表 3s 缓存：290 → ~800 QPS，2.8x） |
+
+| 阶段                                      | 状态                                                                |
+| ----------------------------------------- | ------------------------------------------------------------------- |
+| M0 源码盘点、目录重构                     | ✅                                                                  |
+| M1 统一构建系统（scaffold + 5 服务）      | ✅                                                                  |
+| M2 服务可运行（etcd 注册 + 网关响应）     | ✅                                                                  |
+| M3 接口联调（登录/上传/转码/HLS/互动）    | ✅                                                                  |
+| M4 客户端联调                             | ✅ Linux 下完整验证（登录/列表/封面/播放/弹幕）；Windows 实机待验证 |
+| M5 业务闭环（服务端）                     | ✅（转码/HLS/点赞/弹幕/关注/审核）                                  |
+| M6 测试与部署（gtest 8 项 + Docker 编排） | 🔄 测试完成，Docker 编排待实机验证                                  |
+| M7 文档、学习笔记、面试材料               | ✅                                                                  |
+| M8 性能优化与压测                         | ✅（列表 3s 缓存：290 → ~800 QPS，2.8x）                           |
 
 详见 [docs/ROADMAP.md](docs/ROADMAP.md)。

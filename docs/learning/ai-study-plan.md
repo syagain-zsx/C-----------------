@@ -45,7 +45,7 @@ cd /home/dev/workspace
 
 | 检查项 | 结果 | 说明 |
 | --- | --- | --- |
-| 仓库/提交 | ✅ | `main`，HEAD `bf4faf5`；`git status --short` 有 `examples/` 改动，与本手册无关 |
+| 仓库/提交 | ✅ | `main`，HEAD `bf4faf5`；`git status --short` 有 `examples/` 移除改动，与本手册无关 |
 | 构建产物 | ✅ | `build/bin/` 有 5 个 `*_server` + `file_client` |
 | 单元测试 | ✅ | `ctest --test-dir build`：8/8 通过 |
 | 客户端接口一致性 | ✅ | `check-client-api.py`：服务端 rpc 38、客户端调用 38，两项 PASS |
