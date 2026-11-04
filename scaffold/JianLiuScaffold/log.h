@@ -33,8 +33,12 @@ namespace JianLiuLog {
     extern void init(const log_settings &settings = log_settings());
     // 封装日志输出宏
     #define FMT_PREFIX std::string("[{}:{}]: ")
+    // 输出 debug 级别日志
     #define DBG(fmt, ...) JianLiuLog::g_logger->debug(FMT_PREFIX + fmt, __FILE__, __LINE__, ##__VA_ARGS__)
+    // 输出 info 级别日志
     #define INF(fmt, ...) JianLiuLog::g_logger->info(FMT_PREFIX + fmt, __FILE__, __LINE__, ##__VA_ARGS__)
+    // 输出 warn 级别日志
     #define WRN(fmt, ...) JianLiuLog::g_logger->warn(FMT_PREFIX + fmt, __FILE__, __LINE__, ##__VA_ARGS__)
+    // 输出 error 级别日志
     #define ERR(fmt, ...) JianLiuLog::g_logger->error(FMT_PREFIX + fmt, __FILE__, __LINE__, ##__VA_ARGS__)
 }

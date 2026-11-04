@@ -3,6 +3,7 @@
 #include "fdfs.h"
 
 namespace JianLiuFdfs {
+    // 用配置初始化 FastDFS 全局客户端
     void FDFSClient::init(const fdfs_settings &settings) {
         g_log_context.log_level = LOG_ERR;
         log_init();
@@ -21,9 +22,11 @@ namespace JianLiuFdfs {
             abort();
         }
     }
+    // 释放 FastDFS 全局资源
     void FDFSClient::destroy() {
         fdfs_client_destroy();
     }
+    // 上传内存数据并返回 file_id
     std::optional<std::string> FDFSClient::upload_from_buff(const std::string &buff) {
         auto tracker_server = tracker_get_connection();
         if (tracker_server == nullptr) {
@@ -40,6 +43,7 @@ namespace JianLiuFdfs {
         tracker_close_connection(tracker_server);
         return std::string(file_id);
     }
+    // 上传本地文件并返回 file_id
     std::optional<std::string> FDFSClient::upload_from_file(const std::string &path) {
         auto tracker_server = tracker_get_connection();
         if (tracker_server == nullptr) {
@@ -55,6 +59,7 @@ namespace JianLiuFdfs {
         tracker_close_connection(tracker_server);
         return std::string(file_id);
     }
+    // 按 file_id 下载到内存缓冲区
     bool FDFSClient::download_to_buff(const std::string &file_id, std::string &buff) {
         auto tracker_server = tracker_get_connection();
         if (tracker_server == nullptr) {
@@ -73,6 +78,7 @@ namespace JianLiuFdfs {
         tracker_close_connection(tracker_server);
         return true;
     }
+    // 按 file_id 下载到本地文件
     bool FDFSClient::download_to_file(const std::string &file_id, const std::string &path) {
         auto tracker_server = tracker_get_connection();
         if (tracker_server == nullptr) {
@@ -88,6 +94,7 @@ namespace JianLiuFdfs {
         tracker_close_connection(tracker_server);
         return true;
     }
+    // 按 file_id 删除文件
     bool FDFSClient::remove(const std::string &file_id) {
         auto tracker_server = tracker_get_connection();
         if (tracker_server == nullptr) {

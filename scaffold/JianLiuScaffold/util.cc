@@ -11,6 +11,7 @@
 
 namespace JianLiuUtil {
 
+// 将 Json::Value 序列化为字符串
 std::optional<std::string> JSON::serialize(const Json::Value& val, bool styled) {
     Json::StreamWriterBuilder builder;
     if (!styled) {
@@ -25,6 +26,7 @@ std::optional<std::string> JSON::serialize(const Json::Value& val, bool styled) 
     }
     return ss.str();
 }
+// 将字符串解析为 Json::Value
 std::optional<Json::Value> JSON::unserialize(const std::string& input) {
     Json::CharReaderBuilder builder;
     std::unique_ptr<Json::CharReader> reader(builder.newCharReader());
@@ -38,6 +40,7 @@ std::optional<Json::Value> JSON::unserialize(const std::string& input) {
     return val;
 }
 
+// 读取整个文件内容到字符串
 bool FUTIL::read(const std::string &filename, std::string &body) {
     std::ifstream ifs;
     ifs.open(filename, std::ios::in | std::ios::binary);
@@ -58,6 +61,7 @@ bool FUTIL::read(const std::string &filename, std::string &body) {
     ifs.close();
     return true;
 }
+// 将字符串内容覆盖写入文件
 bool FUTIL::write(const std::string &filename, const std::string &body) {
     std::ofstream ofs;
     ofs.open(filename, std::ios::out | std::ios::binary | std::ios::trunc);
@@ -75,6 +79,7 @@ bool FUTIL::write(const std::string &filename, const std::string &body) {
     return true;
 }
 
+// 按分隔符切分字符串并返回片段数量
 size_t STR::split(const std::string &src, const std::string &sep, std::vector<std::string> &dst) {
     size_t pos, idx = 0;
     while(1) {
@@ -97,6 +102,7 @@ size_t STR::split(const std::string &src, const std::string &sep, std::vector<st
     return dst.size();
 }
 
+// 生成指定长度和字符类型的随机字符串
 std::string Random::code(size_t len, UuidType utype) {
     static const char* digit_arr = "1234567890";
     static const char* char_arr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -131,6 +137,7 @@ std::string Random::code(size_t len, UuidType utype) {
     // 4. 最终组合成为一个随机字符串，进行返回即可
     return result.str();
 }
+// 生成指定区间内的随机整数
 size_t Random::number(size_t min, size_t max) {
     std::random_device rd;
     std::mt19937 generator(rd());
@@ -139,6 +146,7 @@ size_t Random::number(size_t min, size_t max) {
 }
 
 namespace {
+    // 把字节数组编码为小写十六进制字符串
     std::string hexEncode(const unsigned char *data, size_t len) {
         static const char *digits = "0123456789abcdef";
         std::string out;
@@ -150,6 +158,7 @@ namespace {
         return out;
     }
 
+    // 把十六进制字符串解码为字节数组
     bool hexDecode(const std::string &hex, std::vector<unsigned char> &out) {
         if (hex.size() % 2 != 0) {
             return false;
@@ -187,6 +196,7 @@ namespace {
     }
 }
 
+// 对明文密码加盐哈希
 std::string Password::hash(const std::string &plain) {
     unsigned char salt[16];
     if (RAND_bytes(salt, sizeof(salt)) != 1) {
@@ -201,6 +211,7 @@ std::string Password::hash(const std::string &plain) {
     return salt_hex + sha256Hex(salt_hex + plain, 16);
 }
 
+// 校验密码，兼容历史明文密码
 bool Password::verify(const std::string &stored, const std::string &plain) {
     // 历史明文密码：长度不是 64 或不是十六进制，按明文比较
     if (stored.size() != 64) {

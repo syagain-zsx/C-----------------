@@ -2,6 +2,7 @@
 
 
 namespace JianLiuOdb {
+    // 创建连接池并构造 MySQL 数据库句柄
     std::shared_ptr<odb::database> DBFactory::mysql(const mysql_settings &settings) {
         // 1. 创建连接池
         std::unique_ptr<odb::mysql::connection_factory> pool(

@@ -5,6 +5,7 @@
 #include <memory>
 
 namespace JianLiuCode {
+    // 邮件服务器配置
     struct mail_settings {
         std::string username;
         std::string password;
@@ -12,13 +13,16 @@ namespace JianLiuCode {
         std::string from;
     };
 
+    // 验证码发送抽象接口
     class CodeClient {
         public:
         CodeClient() = default;
         ~CodeClient() = default;
+        // 向指定邮箱发送验证码
         virtual bool send(const std::string& to, const std::string& code) = 0;
     };
 
+    // 基于 curl 的邮件验证码客户端
     class MailClient : public CodeClient {
         public:
             using ptr = std::shared_ptr<MailClient>;

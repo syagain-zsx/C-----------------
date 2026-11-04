@@ -6,6 +6,7 @@ namespace JianLiuLog
     //全局化定义
     std::shared_ptr<spdlog::logger> g_logger;
 
+    // 按配置创建同步/异步、stdout/file 日志器
     void init(const log_settings &settings)
     {
         // 0. 格式化参数不匹配时只打印错误，避免异常从日志路径传播到业务线程

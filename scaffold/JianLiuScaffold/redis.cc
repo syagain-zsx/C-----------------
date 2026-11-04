@@ -1,6 +1,7 @@
 #include "redis.h"
 
 namespace JianLiuRedis {
+    // 按配置创建带连接池的 Redis 客户端
     std::shared_ptr<sw::redis::Redis> RedisFactory::create(const redis_settings& settings) {
         sw::redis::ConnectionOptions conn_opts = {
             .host = settings.host,

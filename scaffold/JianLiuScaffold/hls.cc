@@ -5,7 +5,9 @@
 
 namespace JianLiuHls {
     
+// 保存待解析或写入的 m3u8 文件名
 M3U8Info::M3U8Info(const std::string &filename): _filename(filename) {}
+// 解析 m3u8 文件，分离头部标签与分片信息
 bool M3U8Info::parse() {
     std::string body;
     bool ret = JianLiuUtil::FUTIL::read(_filename, body);
@@ -29,6 +31,7 @@ bool M3U8Info::parse() {
     }
     return true;
 }
+// 把头部标签与分片信息写回 m3u8 文件
 bool M3U8Info::write() {
     std::stringstream ss;
     for (auto &h : _headers) {
@@ -45,19 +48,24 @@ bool M3U8Info::write() {
     }
     return true;
 }
+// 返回 m3u8 头部标签列表
 std::vector<std::string>& M3U8Info::headers() {
     return _headers;
 }
+// 返回分片信息列表
 std::vector<M3U8Info::StrPair>& M3U8Info::pieces() {
     return _pieces;
 }
 
+// 保存 HLS 转码配置
 HLSTranscoder::HLSTranscoder(const hls_setttings &settings): _settings(settings) {}
+// 将 FFmpeg 错误码转换为可读字符串
 const char *HLSTranscoder::avError(int err_code) {
     static char errmsg[256];
     av_strerror(err_code, errmsg, 255);
     return errmsg;
 }
+// 执行转码并生成 m3u8 与 ts 分片
 bool HLSTranscoder::transcode(const std::string &input, const std::string &output) {
     int ret;
     //1. 打开输入文件，创建输入格式化上下文对象
