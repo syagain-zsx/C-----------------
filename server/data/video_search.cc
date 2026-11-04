@@ -11,6 +11,11 @@ namespace vp_data {
     bool VideoSearchData::_enabled = true;
     VideoSearchData::VideoSearchData(const JianLiuIcs::ESClient::ptr &es_client) :_es_client(es_client){}
     void VideoSearchData::init(const JianLiuIcs::ESClient::ptr &es_client) {
+        if (!es_client) {
+            WRN("Elasticsearch 未配置，搜索功能降级");
+            _enabled = false;
+            return;
+        }
         JianLiuIcs::Indexer indexer(_index_name);
         indexer.tokenizer("ikmax");
         indexer.field(_key_video_id)->type("keyword");

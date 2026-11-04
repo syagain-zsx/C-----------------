@@ -58,6 +58,8 @@ namespace svc_file {
             if (!file) {
                 throw vp_error::VPException(vp_error::VpError::FILE_NOT_EXIST);
             }
+        }catch (const vp_error::VPException &e) {
+            throw;
         }catch (std::exception &e) {
             ERR("查询文件信息异常: {} - {}", e.what(), file_id);
             throw vp_error::VPException(vp_error::VpError::DATABASE_OP_FAILED);

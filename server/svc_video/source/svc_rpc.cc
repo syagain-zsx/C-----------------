@@ -295,7 +295,7 @@ namespace svc_video {
         //2. 提取请求要素
         const std::string &rid = request->requestid();
         const std::string &ssid = request->sessionid();
-        auto page_index = request->pageindex() - 1;
+        auto page_index = request->pageindex() > 0 ? request->pageindex() - 1 : 0;
         const auto page_count = request->pagecount();
         std::optional<std::string> user_id;
         if (request->has_userid()) {
@@ -334,7 +334,7 @@ namespace svc_video {
         //2. 提取请求要素
         const std::string &rid = request->requestid();
         const std::string &ssid = request->sessionid();
-        auto page_index = request->pageindex() - 1;
+        auto page_index = request->pageindex() > 0 ? request->pageindex() - 1 : 0;
         const auto page_count = request->pagecount();
         vp_data::VideoStatus status = (vp_data::VideoStatus)request->videostatus();
         //3. 处理请求
@@ -370,7 +370,7 @@ namespace svc_video {
         //2. 提取请求要素
         const std::string &rid = request->requestid();
         const std::string &ssid = request->sessionid();
-        auto page_index = request->pageindex() - 1;
+        auto page_index = request->pageindex() > 0 ? request->pageindex() - 1 : 0;
         const auto page_count = request->pagecount();
         //3. 处理请求
         try {
@@ -403,7 +403,7 @@ namespace svc_video {
         //2. 提取请求要素
         const std::string &rid = request->requestid();
         const std::string &ssid = request->sessionid();
-        auto page_index = request->pageindex() - 1;
+        auto page_index = request->pageindex() > 0 ? request->pageindex() - 1 : 0;
         const auto page_count = request->pagecount();
         const auto catgory_id = request->videotypeid();
         //3. 处理请求
@@ -437,7 +437,7 @@ namespace svc_video {
         //2. 提取请求要素
         const std::string &rid = request->requestid();
         const std::string &ssid = request->sessionid();
-        auto page_index = request->pageindex() - 1;
+        auto page_index = request->pageindex() > 0 ? request->pageindex() - 1 : 0;
         const auto page_count = request->pagecount();
         const auto tag_id = request->videotag();
         //3. 处理请求
@@ -471,7 +471,7 @@ namespace svc_video {
         //2. 提取请求要素
         const std::string &rid = request->requestid();
         const std::string &ssid = request->sessionid();
-        auto page_index = request->pageindex() - 1;
+        auto page_index = request->pageindex() > 0 ? request->pageindex() - 1 : 0;
         const auto page_count = request->pagecount();
         const auto search_key = request->searchkey();
         //3. 处理请求

@@ -1,6 +1,9 @@
 #include <JianLiuScaffold/util.h>
 #include <JianLiuScaffold/log.h>
 #include "svc_server.h"
+#include <pplx/threadpool.h>
+#include <cstdio>
+#include <exception>
 
 
 DEFINE_int32(log_level, 1, "日志等级: 1-debug;2-info;3-warn;4-error; 6-off");
@@ -41,6 +44,11 @@ DEFINE_string(mail_from, "JzSan521@163.com", "发送端邮箱地址信息");
 
 int main(int argc, char *argv[])
 {
+    try {
+        crossplat::threadpool::initialize_with_threads(4);
+    } catch (const std::exception &e) {
+        std::fprintf(stderr, "init cpprest threadpool skipped: %s\n", e.what());
+    }
     google::ParseCommandLineFlags(&argc, &argv, true);
     JianLiuLog::log_settings  lsettings = {
         .async = FLAGS_log_async,

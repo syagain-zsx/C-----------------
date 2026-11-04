@@ -25,7 +25,7 @@ namespace vp_data{
             //缓存未命中，则获取1000条数据添加缓存
             insertMainPageListToCache(list);
             //组织要返回的ID，需要注意的时list中可能有1000条数据，人家获取的只是其中的区间ID即可
-            for (int i = page * count; i < (page+1) * count && i < list.size(); i++) {
+            for (size_t i = page * count; i < (page+1) * count && i < list.size(); i++) {
                 result.push_back(list[i].video_id);
             }
         }else {
@@ -33,7 +33,7 @@ namespace vp_data{
             auto list = getMainPageListFromDB(page, count); //获取指定区间数据
             //组织要返回的ID
             result.clear(); //清空一下返回列表，防止数据重复
-            for (int i = 0; i < count && i < list.size(); i++) {
+            for (size_t i = 0; i < count && i < list.size(); i++) {
                 result.push_back(list[i].video_id);
             }
         }
@@ -169,7 +169,7 @@ namespace vp_data{
         //缓存未命中，则获取用户所有数据添加缓存，  缓存中只存放上架状态的视频ID列表
         if (status == VideoStatus::ONLINE) insertUserPageListToCache(uid, list);
         //组织要返回的ID，需要注意的时list中可能有1000条数据，人家获取的只是其中的区间ID即可
-        for (int i = page * count; i < (page+1) * count && i < list.size(); i++) {
+        for (size_t i = page * count; i < (page+1) * count && i < list.size(); i++) {
             result->videos.push_back(list[i].video_id);
         }
         // 3. 返回数据
@@ -193,7 +193,7 @@ namespace vp_data{
             //缓存未命中，则获取1000条数据添加缓存
             insertCatgoryPageListToCache(catgory_type, list);
             //组织要返回的ID，需要注意的时list中可能有1000条数据，人家获取的只是其中的区间ID即可
-            for (int i = page * count; i < (page+1) * count && i < list.size(); i++) {
+            for (size_t i = page * count; i < (page+1) * count && i < list.size(); i++) {
                 // DBG("获取到的视频ID: {} - {}", i, list[i].video_id);
                 result.push_back(list[i].video_id);
             }
@@ -202,7 +202,7 @@ namespace vp_data{
             auto list = getCatgoryPageListFromDB(catgory_type, page, count); //获取指定区间数据
             //组织要返回的ID
             result.clear(); //清空一下返回列表，防止数据重复
-            for (int i = 0; i < count && i < list.size(); i++) {
+            for (size_t i = 0; i < count && i < list.size(); i++) {
                 result.push_back(list[i].video_id);
             }
         }
@@ -223,7 +223,7 @@ namespace vp_data{
             //缓存未命中，则获取1000条数据添加缓存
             insertTagPageListToCache(tag_type, list);
             //组织要返回的ID，需要注意的时list中可能有1000条数据，人家获取的只是其中的区间ID即可
-            for (int i = page * count; i < (page+1) * count && i < list.size(); i++) {
+            for (size_t i = page * count; i < (page+1) * count && i < list.size(); i++) {
                 result.push_back(list[i].video_id);
             }
         }else {
@@ -231,7 +231,7 @@ namespace vp_data{
             auto list = getTagPageListFromDB(tag_type, page, count); //获取指定区间数据
             //组织要返回的ID
             result.clear(); //清空一下返回列表，防止数据重复
-            for (int i = 0; i < count && i < list.size(); i++) {
+            for (size_t i = 0; i < count && i < list.size(); i++) {
                 result.push_back(list[i].video_id);
             }
         }

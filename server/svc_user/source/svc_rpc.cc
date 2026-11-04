@@ -502,7 +502,7 @@ namespace svc_user {
 		const std::string &rid = request->requestid();
 		const std::string &ssid = request->sessionid();
         vp_data::UserStatus status = (vp_data::UserStatus)request->userstatus();
-        size_t page = request->pageindex() - 1; //默认应该从第0页开始;但是有可能客户端是从第1页开始算的
+        size_t page = request->pageindex() > 0 ? request->pageindex() - 1 : 0; //默认应该从第0页开始;但是有可能客户端是从第1页开始算的
         size_t count = request->pagecount();
         DBG("获取管理员列表: {} {}", page, count);
 		try {

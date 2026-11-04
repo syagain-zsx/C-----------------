@@ -62,7 +62,7 @@ namespace svc_transcode {
                 std::string ts_local_path = _temp_path + "/" + piece.second;
                 auto ts_remote_path = JianLiuFdfs::FDFSClient::upload_from_file(ts_local_path);
                 if (!ts_remote_path) {
-                    ERR("ts文件上传失败: {} - {}", ts_local_path, *ts_remote_path);
+                    ERR("ts文件上传失败: {} (video={})", ts_local_path, video_id);
                     throw vp_error::VPException(vp_error::VpError::TRANSCODE_FAILED);
                 }
                 // 为生成的ts文件，生成一个新的文件元信息，并添加到数据库中
@@ -81,7 +81,7 @@ namespace svc_transcode {
             m3u8_info.write();
             auto m3u8_remote_path = JianLiuFdfs::FDFSClient::upload_from_file(m3u8_path);
             if (!m3u8_remote_path) {
-                ERR("m3u8文件上传失败: {} - {}", m3u8_path, *m3u8_remote_path);
+                ERR("m3u8文件上传失败: {} (video={})", m3u8_path, video_id);
                 throw vp_error::VPException(vp_error::VpError::TRANSCODE_FAILED);
             }
             //8. 将m3u8文件的存储路径，更新到文件元信息中（并修改文件mime）

@@ -1,6 +1,9 @@
 #include <JianLiuScaffold/util.h>
 #include <JianLiuScaffold/log.h>
 #include "svc_server.h"
+#include <pplx/threadpool.h>
+#include <cstdio>
+#include <exception>
 
 
 DEFINE_int32(log_level, 1, "日志等级: 1-debug;2-info;3-warn;4-error; 6-off");
@@ -13,7 +16,7 @@ DEFINE_int32(listen_port, 9003, "用户子服务监听端口");
 
 DEFINE_string(mq_url, "amqp://admin:123456@192.168.65.128:5672/", "消息队列服务器地址");
 
-DEFINE_string(es_url, "http://elastic:123456@192.168.65.128:9200/", "搜索引擎服务器地址");
+DEFINE_string(es_url, "", "搜索引擎服务器地址；留空则搜索降级（不阻塞启动）");
 
 DEFINE_string(registry_center_addr, "http://192.168.65.128:2379", "注册中心地址");
 DEFINE_string(service_name, "video", "服务名称");
@@ -39,6 +42,11 @@ DEFINE_string(cache_del_queue_info, R"({"exchange": "delete_cache_exchange", "ty
 
 int main(int argc, char *argv[])
 {
+    try {
+        crossplat::threadpool::initialize_with_threads(4);
+    } catch (const std::exception &e) {
+        std::fprintf(stderr, "init cpprest threadpool skipped: %s\n", e.what());
+    }
     google::ParseCommandLineFlags(&argc, &argv, true);
     JianLiuLog::log_settings  lsettings = {
         .async = FLAGS_log_async,

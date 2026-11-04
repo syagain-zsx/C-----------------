@@ -86,8 +86,14 @@ namespace svc_video {
         auto mysql = JianLiuOdb::DBFactory::mysql(_mysql_settings);
         auto redis = JianLiuRedis::RedisFactory::create(_redis_settings);
         std::vector<std::string> urls = {_es_url};
-        auto elastic = std::make_shared<JianLiuIcs::ESClient>(urls);
-        vp_data::VideoSearchData::init(elastic);
+        std::shared_ptr<JianLiuIcs::ESClient> elastic;
+        if (!_es_url.empty()) {
+            elastic = std::make_shared<JianLiuIcs::ESClient>(urls);
+            vp_data::VideoSearchData::init(elastic);
+        } else {
+            WRN("未配置 --es_url，搜索功能降级（跳过启动时建索引）");
+            vp_data::VideoSearchData::init(nullptr);
+        }
         auto mq_client = JianLiuMq::MQFactory::create<JianLiuMq::MQClient>(_mq_url);
         auto del_file_publisher = JianLiuMq::MQFactory::create<JianLiuMq::Publisher>(mq_client, _del_file_settings);
         auto transcode_publisher = JianLiuMq::MQFactory::create<JianLiuMq::Publisher>(mq_client, _transcode_settings);

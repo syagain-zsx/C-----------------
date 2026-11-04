@@ -117,7 +117,7 @@ namespace svc_user {
             vp_data::UserData ud(mtx, _redis, _cache_sync);
             auto user = ud.verify(username, passwd);
             if (!user) {
-                INF("用户名密码验证失败: {}-{}", username, passwd);
+                INF("用户名密码验证失败: {}", username);
                 throw vp_error::VPException(vp_error::VpError::USERNAME_OR_PASSWD_ERROR);
             }
             vp_data::SessionData sd(mtx, _redis, _cache_sync);

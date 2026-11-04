@@ -103,16 +103,15 @@ namespace svc_video {
             // 8. 删除搜索引擎中视频信息
             vp_data::VideoSearchData vsd(_es_client);
             vsd.remove(vid);
-            // 9. 发布删除视频文件，以及封面图片文件消息
-            api_message::DeleteFileMsg msg;
-            msg.add_file_id(video->video_fid());
-            msg.add_file_id(video->cover_fid());
-            _del_file_publisher->publish(msg.SerializeAsString());
-
+            // 9. 提交事务（先提交，成功后再发删除文件消息，避免回滚后文件已被删）
             vp_data::VideoIdListData vild(mtx, _redis, _cache_delete_sync);
             vild.syncPageListCache(video->video_id(), video->uploader_uid(), catgory_id, tag_ids);
             // 10. 提交事务
             mtx.commit();
+            api_message::DeleteFileMsg msg;
+            msg.add_file_id(video->video_fid());
+            msg.add_file_id(video->cover_fid());
+            _del_file_publisher->publish(msg.SerializeAsString());
         }catch (const vp_error::VPException &e) {
             ERR("删除视频失败: {}", e.what());
             throw;
@@ -470,6 +469,10 @@ namespace svc_video {
         vp_data::VideoStatus status,
         size_t page, size_t count) {
         api_message::userVideoListResult result;
+        // 防御非法分页：page 过大或 count=0/过大都会导致越界/巨大 key/整数溢出
+        if (page > 100000) return result;
+        if (count == 0) count = 20;
+        if (count > 100) count = 100;
         try {
             //1. 初始化事务对象
             odb::transaction mtx(_mysql->begin());
@@ -503,6 +506,10 @@ namespace svc_video {
     }
     std::vector<api_message::VideoInfo> SvcData::getMainPageList(size_t page, size_t count) {
         std::vector<api_message::VideoInfo> result;
+        // 防御非法分页：page 过大或 count=0/过大都会导致越界/巨大 key/整数溢出
+        if (page > 100000) return result;
+        if (count == 0) count = 20;
+        if (count > 100) count = 100;
         // 首页列表短缓存（3s）：热点页请求直接命中 Redis，避免重复的 DB/Redis 往返。
         // 视频上下架/新增最多延迟 3s 可见，测试脚本需轮询。
         const std::string cache_key = "cache_main_page_" + std::to_string(page) + "_" + std::to_string(count);
